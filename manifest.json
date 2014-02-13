@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+
+  "name": "Bank form autofill",
+  "description": "Fill Bank's online payment form.",
+  "version": "1.0.0",
+
+  "content_scripts": [
+    {
+      "matches": ["https://www.egolomt.mn/billing/cardinfo.aspx"],
+      "js": ["libs/jquery-2.1.0.js", "injectors.js"]
+    }
+  ]
+}
