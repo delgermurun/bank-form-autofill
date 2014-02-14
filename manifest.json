@@ -8,6 +8,10 @@
 
   "options_page": "options.html",
 
+   "background": {
+      "scripts": ["background.js"]
+   },
+
   "content_scripts": [
     {
       "matches": ["https://www.egolomt.mn/billing/cardinfo.aspx"],

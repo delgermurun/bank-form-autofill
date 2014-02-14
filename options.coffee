@@ -1,20 +1,10 @@
+background = chrome.extension.getBackgroundPage()
+
 BANKS = [
     name: 'golomt'
     title: 'Голомт'
   ,
 ]
-
-getStorageData = (key) ->
-  return JSON.parse(localStorage[key] or 'null')
-
-setStorageData = (key, data) ->
-  localStorage[key] = JSON.stringify(data)
-
-getCardNames = (bank) ->
-  return getStorageData("#{bank}-cardNames") or []
-
-setCardNames = (bank, cardNames) ->
-  setStorageData("#{bank}-cardNames", cardNames)
 
 saveCard = ($form) ->
   # get form data
@@ -31,14 +21,14 @@ saveCard = ($form) ->
   delete data['name']
 
   # save card name
-  cardNames = getCardNames(bank)
+  cardNames = background.getCardNames(bank)
 
   if cardName not in cardNames
     cardNames.push(cardName)
-    setCardNames(bank, cardNames)
+    background.setCardNames(bank, cardNames)
 
   # save card data
-  setStorageData("#{bank}-#{cardName}", data)
+  background.setStorageData("#{bank}-#{cardName}", data)
   renderCardList()
 
 deleteCard = ($a) ->
@@ -49,11 +39,11 @@ deleteCard = ($a) ->
     return
 
   # delete card name
-  cardNames = getCardNames(bank)
+  cardNames = background.getCardNames(bank)
 
   if cardName in cardNames
     cardNames.pop(cardName)
-    setCardNames(bank, cardNames)
+    background.setCardNames(bank, cardNames)
 
   # delete card data
   localStorage.removeItem("#{bank}-#{cardName}")
@@ -69,9 +59,9 @@ renderCardList = ->
   for bank in BANKS
     bank.cards = []
 
-    cardNames = getCardNames(bank.name)
+    cardNames = background.getCardNames(bank.name)
     for cardName in cardNames
-      card = getStorageData("#{bank.name}-#{cardName}")
+      card = background.getStorageData("#{bank.name}-#{cardName}")
       card['name'] = cardName
       bank.cards.push(card)
 
@@ -102,7 +92,7 @@ renderCardForm = ($a)->
     data.bank = $a.data('bank')
     data.name = $a.data('name')
     data.title = 'Карт засах'
-    data = $.extend({}, data, getStorageData("#{data.bank}-#{data.name}"))
+    data = $.extend({}, data, background.getStorageData("#{data.bank}-#{data.name}"))
 
   $('#card-form-div').html(cardFormTemplate(data))
 

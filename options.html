@@ -32,6 +32,7 @@
         <strong>{{name}} - </strong>
         <ul>
             <li>Картын дугаар: {{number}};</li>
+            <li>Картан дээрх нэр: {{holder}};</li>
             <li>Хүчинтэй хугацаа (MM/YYYY): {{expire_date}};</li>
             <li>CVV код: {{cvv}};</li>
             <li>Утасны дугаар: {{phone_number}};</li>
@@ -67,6 +68,10 @@
             <label>
                 <strong>Картын дугаар: </strong>
                 <input type="text" name="number" value="{{number}}" maxlength="16">
+            </label>
+            <label>
+                Картан дээрх нэр:
+                <input type="text" name="holder" value="{{holder}}" maxlength="50">
             </label>
             <label>
                 Хүчинтэй хугацаа (MM/YYYY):
