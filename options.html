@@ -2,14 +2,19 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Options</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
 </head>
 <body>
-    <div id="card-form-div">
+    <div class="container">
+        <div class="row">
+            <div id="card-form-div" class="col-md-6">
+            </div>
+            <div id="card-list-div" class="col-md-6">
+            </div>
+        </div>
     </div>
-    <span>Картууд</span>
-    <hr/>
-    <div id="card-list-div">
-    </div>
+
     <script id="card-list-template" type="text/template">
         <ul>
             {{#banks}}
@@ -47,55 +52,80 @@
         </ul>
     </script>
     <script id="card-form-template" type="text/template">
-        <form class="card-form">
-            <span>{{title}}</span>
-            <hr/>
-            <label>
-                <strong>Банк: </strong>
-                <select name="bank" id="bank">
-                    <option value="">Банкаа сонго</option>
-                    {{#each banks}}
-                        <option value="{{name}}"{{#is name ../bank}}selected=""{{/is}}>
-                            {{title}}
-                        </option>
-                    {{/each}}
-                </select>
-            </label>
-            <label>
-                <strong>Картын нэр: </strong>
-                <input type="text" name="name" value="{{name}}" maxlength="40">
-            </label>
-            <label>
-                <strong>Картын дугаар: </strong>
-                <input type="text" name="number" value="{{number}}" maxlength="16">
-            </label>
-            <label>
-                Картан дээрх нэр:
-                <input type="text" name="holder" value="{{holder}}" maxlength="50">
-            </label>
-            <label>
-                Хүчинтэй хугацаа (MM/YYYY):
-                <input type="text" name="expire_date" value="{{expire_date}}" maxlength="7">
-            </label>
-            <label>
-                CVV код:
-                <input type="text" name="cvv" value="{{cvv}}" maxlength="3">
-            </label>
-            <label>
-                Утасны дугаар:
-                <input type="text" name="phone_number" value="{{phone_number}}" maxlength="8">
-            </label>
-            <label>
-                Email:
-                <input type="text" name="email" value="{{email}}" maxlength="50">
-            </label>
-            <p>
-                <input type="submit" value="Хадгалах"> | 
-                <a href="javascript:;" class="form-cancel">Цуцлах</a>
-            </p>
-        </form>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{title}}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="card-form form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="bank-field" class="col-sm-4 control-label">Банк</label>
+                        <div class="col-sm-8">
+                            <select name="bank" id="bank-field" class="form-control">
+                                <option value="">Банкаа сонго</option>
+                                {{#each banks}}
+                                    <option value="{{name}}"{{#is name ../bank}}selected=""{{/is}}>
+                                        {{title}}
+                                    </option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name-field" class="col-sm-4 control-label">Картын нэр</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="name-field" name="name" class="form-control" value="{{name}}" maxlength="40">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="number-field" class="col-sm-4 control-label">Картын дугаар</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="number-field" class="form-control" name="number" value="{{number}}" maxlength="16">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="holder-field" class="col-sm-4 control-label">Картан дээрх нэр</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="holder-field" class="form-control" name="holder" value="{{holder}}" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expire_date-field" class="col-sm-4 control-label">Хүчинтэй хугацаа (MM/YYYY)</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="expire_date-field" class="form-control" name="expire_date" value="{{expire_date}}" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv-field" class="col-sm-4 control-label">CVV код</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="cvv-field" class="form-control" name="cvv" value="{{cvv}}" maxlength="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number-field" class="col-sm-4 control-label">Утасны дугаар</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="phone_number-field" class="form-control" name="phone_number" value="{{phone_number}}" maxlength="8">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-field" class="col-sm-4 control-label">Email</label>
+                        <div class="col-sm-8">
+                            <input type="email" id="email-field" class="form-control" name="email" value="{{email}}" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-field" class="col-sm-4 control-label"></label>
+                        <div class="col-sm-8">
+                            <input type="submit" value="Хадгалах" class="btn btn-success">
+                            <a href="javascript:;" class="form-cancel btn btn-danger">Цуцлах</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </script>
     <script type="text/javascript" src="libs/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="libs/bootstrap.js"></script>
     <script type="text/javascript" src="libs/handlebars-v1.3.0.js"></script>
     <script type="text/javascript" src="libs/helpers.js"></script>
     <script type="text/javascript" src="options.js"></script>
