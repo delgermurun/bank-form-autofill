@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Options</title>
+</head>
+<body>
+    <div id="card-form-div">
+    </div>
+    <span>Картууд</span>
+    <hr/>
+    <div id="card-list-div">
+    </div>
+    <script id="card-list-template" type="text/template">
+        <ul>
+            {{#banks}}
+                <li>
+                    {{name}}:
+                    <ul>
+                    {{#cards}}
+                    <li>
+                        {{#include parent=..}}
+                            {{> card}}
+                        {{/include}}
+                    </li>
+                    {{/cards}}
+                    </ul>
+                </li>
+            {{/banks}}
+        </ul>
+    </script>
+    <script id="card-template" type="text/template">
+        <strong>{{name}} - </strong>
+        <ul>
+            <li>Картын дугаар: {{number}};</li>
+            <li>Хүчинтэй хугацаа (MM/YYYY): {{expire_date}};</li>
+            <li>CVV код: {{cvv}};</li>
+            <li>Утасны дугаар: {{phone_number}};</li>
+            <li>Email: {{email}}</li>
+            <li>
+                <a href="javascript:;" class="delete-card" data-bank="{{parent.name}}" data-name="{{name}}">
+                    Устгах</a>
+                |
+                <a href="javascript:;" class="edit-card" data-bank="{{parent.name}}" data-name="{{name}}">
+                    Засах</a>
+            </li>
+        </ul>
+    </script>
+    <script id="card-form-template" type="text/template">
+        <form class="card-form">
+            <span>{{title}}</span>
+            <hr/>
+            <label>
+                <strong>Банк: </strong>
+                <select name="bank" id="bank">
+                    <option value="">Банкаа сонго</option>
+                    {{#each banks}}
+                        <option value="{{name}}"{{#is name ../bank}}selected=""{{/is}}>
+                            {{title}}
+                        </option>
+                    {{/each}}
+                </select>
+            </label>
+            <label>
+                <strong>Картын нэр: </strong>
+                <input type="text" name="name" value="{{name}}" maxlength="40">
+            </label>
+            <label>
+                <strong>Картын дугаар: </strong>
+                <input type="text" name="number" value="{{number}}" maxlength="16">
+            </label>
+            <label>
+                Хүчинтэй хугацаа (MM/YYYY):
+                <input type="text" name="expire_date" value="{{expire_date}}" maxlength="7">
+            </label>
+            <label>
+                CVV код:
+                <input type="text" name="cvv" value="{{cvv}}" maxlength="3">
+            </label>
+            <label>
+                Утасны дугаар:
+                <input type="text" name="phone_number" value="{{phone_number}}" maxlength="8">
+            </label>
+            <label>
+                Email:
+                <input type="text" name="email" value="{{email}}" maxlength="50">
+            </label>
+            <p>
+                <input type="submit" value="Хадгалах"> | 
+                <a href="javascript:;" class="form-cancel">Цуцлах</a>
+            </p>
+        </form>
+    </script>
+    <script type="text/javascript" src="libs/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="libs/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="libs/helpers.js"></script>
+    <script type="text/javascript" src="options.js"></script>
+</body>
+</html>
