@@ -1,25 +1,14 @@
 addString = 'Бөглө'
-buttonId = 'autoFillFormButton'
 cardOptionId = 'autoFillFormCardNames'
 
 sendCommand = (name, data, response) ->
   data.command = name
   return chrome.runtime.sendMessage(data, response)
 
-generateButton = (className, element) ->
-  className = className or 'form-autofill-button'
-  element = element || '<button/>'
-
-  $button = $(element).addClass(className)
-    .attr('id', buttonId)
-    .text(addString)
-
-  $icon = $('<span/>').addClass('autofill-icon')
-  $button.prepend($icon)
-  return $button
-
 generateCardOptions = (cardNames) ->
   $element = $('<select/>').attr('id', cardOptionId)
+  $option = $('<option/>').val('').text('Бөглөх картаа сонгоно уу.')
+  $element.append($option)
 
   for cardName in cardNames
     $option = $('<option/>').val(cardName).text(cardName)
@@ -27,41 +16,33 @@ generateCardOptions = (cardNames) ->
 
   return $element
 
-createButtonBind = (source) ->
+createOptionsBind = (source) ->
   # create generic button handler prevent event bubbling, form submissions, etc.
-  $('#' + buttonId).on('click', (ev) ->
-    ev.preventDefault()
-
+  $("##{cardOptionId}").on('change', (ev) ->
     fillForm()
     return false
   )
 
-tdbButtonAdd = ->
+tdbOptionsAdd = ->
   sendCommand('getCardNames', {bank: 'tdb'}, (cardNames) ->
     cardNames = cardNames or []
 
     $target = $('#mF')
     $cardOptions = generateCardOptions(cardNames)
-    $button = generateButton('tdb')
 
     $target.before($cardOptions)
-    $target.before($button)
-
-    createButtonBind()
+    createOptionsBind()
   )
 
-golomtButtonAdd = ->
+golomtOptionsAdd = ->
   sendCommand('getCardNames', {bank: 'golomt'}, (cardNames) ->
     cardNames = cardNames or []
 
     $target = $('#Table1')
     $cardOptions = generateCardOptions(cardNames)
-    $button = generateButton('golomt')
 
     $target.before($cardOptions)
-    $target.before($button)
-
-    createButtonBind()
+    createOptionsBind()
   )
 
 golomtFillForm = ->
@@ -94,6 +75,9 @@ tdbFillForm = ->
   )
 
 fillForm = ->
+  if !$("##{cardOptionId}").val()
+    return
+
   host = window.location.hostname
 
   if /egolomt\.mn/.test(host)
@@ -105,15 +89,14 @@ fillForm = ->
 injectFillButton = ->
   host = window.location.hostname
 
-  $button = $('#' + buttonId)
-  if $button.length
-    $button.remove()
+  if $("##{cardOptionId}").length
+    $("##{cardOptionId}").remove()
 
   if /egolomt\.mn/.test(host)
-    golomtButtonAdd()
+    golomtOptionsAdd()
 
   if /bankcard\.mn/.test(host) or /202\.131\.226\.94/.test(host)
-    tdbButtonAdd()
+    tdbOptionsAdd()
 
 $( ->
   timeout = 500
