@@ -99,7 +99,7 @@ fillForm = ->
   if /egolomt\.mn/.test(host)
     golomtFillForm()
 
-  if /bankcard\.mn/.test(host)
+  if /bankcard\.mn/.test(host) or /202\.131\.226\.94/.test(host)
     tdbFillForm()
 
 injectFillButton = ->
@@ -112,7 +112,7 @@ injectFillButton = ->
   if /egolomt\.mn/.test(host)
     golomtButtonAdd()
 
-  if /bankcard\.mn/.test(host)
+  if /bankcard\.mn/.test(host) or /202\.131\.226\.94/.test(host)
     tdbButtonAdd()
 
 $( ->
