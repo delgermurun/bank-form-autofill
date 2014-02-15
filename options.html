@@ -16,10 +16,16 @@
     </div>
 
     <script id="card-list-template" type="text/template">
-        <ul>
+        <ul class="nav nav-tabs">
             {{#banks}}
-                <li>
-                    {{name}}:
+                <li {{#is name 'golomt'}}class="active"{{/is}}>
+                    <a href="#tab-{{name}}" data-toggle="tab">{{title}}</a>
+                </li>
+            {{/banks}}
+        </ul>
+        <div class="tab-content">
+            {{#banks}}
+                <div class="tab-pane {{#is name 'golomt'}}active{{/is}}" id="tab-{{name}}">
                     <ul>
                     {{#cards}}
                     <li>
@@ -29,28 +35,30 @@
                     </li>
                     {{/cards}}
                     </ul>
-                </li>
+                </div>
             {{/banks}}
         </ul>
     </script>
+
     <script id="card-template" type="text/template">
-        <strong>{{name}} - </strong>
+        <strong>{{name}}</strong>
         <ul>
-            <li>Картын дугаар: {{number}};</li>
-            <li>Картан дээрх нэр: {{holder}};</li>
-            <li>Хүчинтэй хугацаа (MM/YYYY): {{expire_date}};</li>
-            <li>CVV код: {{cvv}};</li>
-            <li>Утасны дугаар: {{phone_number}};</li>
-            <li>Email: {{email}}</li>
+            <li><strong>Картын дугаар: </strong>{{number}}</li>
+            <li><strong>Картан дээрх нэр: </strong>{{holder}}</li>
+            <li><strong>Хүчинтэй хугацаа (MM/YYYY): </strong>{{expire_date}}</li>
+            <li><strong>CVV код: </strong>{{cvv}}</li>
+            <li><strong>Утасны дугаар: </strong>{{phone_number}}</li>
+            <li><strong>Email: </strong>{{email}}</li>
             <li>
-                <a href="javascript:;" class="delete-card" data-bank="{{parent.name}}" data-name="{{name}}">
-                    Устгах</a>
-                |
-                <a href="javascript:;" class="edit-card" data-bank="{{parent.name}}" data-name="{{name}}">
+                <a href="javascript:;" class="edit-card btn btn-xs btn-primary" data-bank="{{parent.name}}" data-name="{{name}}">
                     Засах</a>
+                |
+                <a href="javascript:;" class="delete-card btn btn-xs btn-danger" data-bank="{{parent.name}}" data-name="{{name}}">
+                    Устгах</a>
             </li>
         </ul>
     </script>
+
     <script id="card-form-template" type="text/template">
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -124,6 +132,7 @@
             </div>
         </div>
     </script>
+
     <script type="text/javascript" src="libs/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="libs/bootstrap.js"></script>
     <script type="text/javascript" src="libs/handlebars-v1.3.0.js"></script>

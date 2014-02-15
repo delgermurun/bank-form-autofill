@@ -2,7 +2,10 @@ background = chrome.extension.getBackgroundPage()
 
 BANKS = [
     name: 'golomt'
-    title: 'Голомт'
+    title: 'Голомт Банк'
+  ,
+    name: 'tdb'
+    title: 'Худалдаа Хөгжлийн Банк'
   ,
 ]
 
@@ -30,6 +33,7 @@ saveCard = ($form) ->
   # save card data
   background.setStorageData("#{bank}-#{cardName}", data)
   renderCardList()
+  renderCardForm()
 
 deleteCard = ($a) ->
   bank = $a.data('bank')
