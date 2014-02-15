@@ -36,6 +36,20 @@ createButtonBind = (source) ->
     return false
   )
 
+tdbButtonAdd = ->
+  sendCommand('getCardNames', {bank: 'tdb'}, (cardNames) ->
+    cardNames = cardNames or []
+
+    $target = $('#mF')
+    $cardOptions = generateCardOptions(cardNames)
+    $button = generateButton('tdb')
+
+    $target.before($cardOptions)
+    $target.before($button)
+
+    createButtonBind()
+  )
+
 golomtButtonAdd = ->
   sendCommand('getCardNames', {bank: 'golomt'}, (cardNames) ->
     cardNames = cardNames or []
@@ -65,13 +79,30 @@ golomtFillForm = ->
     $('#cardmail').val(cardData['email'] or 'тохируулаагүй байна')
   )
 
+tdbFillForm = ->
+  sendCommand('getCardData', {bank: 'tdb', cardName: $("##{cardOptionId}").val()}, (cardData) ->
+    cardData = cardData or {}
+    $('input[name="pan"]').val(cardData['number'] or 'тохируулаагүй байна')
+    $('input[name="cvv2"]').val(cardData['cvv'] or '')
+    $('input[name="fio"]').val(cardData['holder'] or 'тохируулаагүй байна')
+
+    date = (cardData['expire_date'] or '/').split('/')
+    $('select[name="expMon"]').val(date[0])
+    $('select[name="ExpYear"]').val("#{date[1][2]}#{date[1][3]}")
+
+    $('input[name="emailuser"]').val(cardData['email'] or 'тохируулаагүй байна')
+  )
+
 fillForm = ->
   host = window.location.hostname
 
   if /egolomt\.mn/.test(host)
     golomtFillForm()
 
-injectQuickAddLink = ->
+  if /bankcard\.mn/.test(host)
+    tdbFillForm()
+
+injectFillButton = ->
   host = window.location.hostname
 
   $button = $('#' + buttonId)
@@ -81,7 +112,10 @@ injectQuickAddLink = ->
   if /egolomt\.mn/.test(host)
     golomtButtonAdd()
 
+  if /bankcard\.mn/.test(host)
+    tdbButtonAdd()
+
 $( ->
   timeout = 500
-  window.setTimeout(injectQuickAddLink, timeout)
+  window.setTimeout(injectFillButton, timeout)
 )
